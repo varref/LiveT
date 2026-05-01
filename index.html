@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أزرار احترافية</title>
+  
+  <style>
+    body {
+      background-color: #000000;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .button-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .button {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(145deg, #000, #000);
+      border: 1.75px solid white;
+      border-radius: 15px;
+      text-align: center;
+      padding: 10px;
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      transition: left 0.5s;
+    }
+
+    .button:hover::before {
+      left: 100%;
+    }
+
+    .button:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .button:active {
+      transform: translateY(-2px) scale(0.98);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .button img {
+      width: 70%;
+      height: 70%;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover img {
+      transform: scale(1.05);
+    }
+
+    .button-text {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      line-height: 1.4;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media screen and (orientation: landscape) {
+      .button-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .button {
+        width: 120px;
+        height: 120px;
+      }
+    }
+
+    .home-button {
+      position: fixed;
+      bottom: 20px;
+      right: -100px;
+      background: linear-gradient(145deg, #000, #000);
+      border: 3px solid white;
+      color: white;
+      border-radius: 50px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      font-size: 1em;
+      font-weight: bold;
+      animation: slideIn 1s ease-out forwards;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .home-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .home-button svg {
+      width: 50px;
+      height: 27px;
+      fill: white;
+      transition: fill 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        right: -100px;
+        opacity: 0;
+      }
+      to {
+        right: 20px;
+        opacity: 1;
+      }
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      backdrop-filter: blur(5px);
+    }
+
+    .popup-content {
+      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      border: 2px solid #333;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .popup-content * {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    @keyframes popupAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .popup-content::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: #333;
+      border-radius: 20px;
+      z-index: -1;
+    }
+
+    .popup button {
+      background: #2a2a2a;
+      color: white;
+      font-size: 16px;
+      padding: 15px 25px;
+      width: 180px;
+      height: 60px;
+      border: 2px solid #444;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .popup button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      transition: left 0.5s;
+    }
+
+    .popup button:hover::before {
+      left: 100%;
+    }
+
+    .popup button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .popup button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: #888;
+      font-size: 24px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .popup-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+  <div class="home-button" onclick="window.location.href='https://varref.github.io/var/'">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3Z"></path>
+    </svg>
+  </div>
+
+  <div class="button-container">
+      
+
+    
+   <a href="go:T1" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijDLKXaN1Mk4q5wVZuEHl_QNSA0VaD9byoUCPqB-lRuYKoTNEEAs6240F79rfkevj3dbEdi_LxCyjqnivMWEzuS7miafb04r4t_PkASceHigTcLgvf7qJiAAenQkVlBy6ogPZQkb0rQqoZV1LDz2Z2RyFvy6ukPs8WNuTGbtxZW_FqAvGej_dTfeWN/s320/img_1_1755517087422.jpg" alt="Image 1">
+      <div class="button-text">THMANYAH 1</div>
+    </a>
+    
+    
+    <a href="go:T2" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijDLKXaN1Mk4q5wVZuEHl_QNSA0VaD9byoUCPqB-lRuYKoTNEEAs6240F79rfkevj3dbEdi_LxCyjqnivMWEzuS7miafb04r4t_PkASceHigTcLgvf7qJiAAenQkVlBy6ogPZQkb0rQqoZV1LDz2Z2RyFvy6ukPs8WNuTGbtxZW_FqAvGej_dTfeWN/s320/img_1_1755517087422.jpg" alt="Image 1">
+      <div class="button-text">THMANYAH 2</div>
+    </a>
+    
+    
+    <a href="go:T3" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijDLKXaN1Mk4q5wVZuEHl_QNSA0VaD9byoUCPqB-lRuYKoTNEEAs6240F79rfkevj3dbEdi_LxCyjqnivMWEzuS7miafb04r4t_PkASceHigTcLgvf7qJiAAenQkVlBy6ogPZQkb0rQqoZV1LDz2Z2RyFvy6ukPs8WNuTGbtxZW_FqAvGej_dTfeWN/s320/img_1_1755517087422.jpg" alt="Image 1">
+      <div class="button-text">THMANYAH 3</div>
+    </a>
+      
+
+
+
+
+    <a href="go:0" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 1">
+      <div class="button-text">Bein news</div>
+    </a>
+      
+    <a href="go:1" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 1">
+      <div class="button-text">Bein 1</div>
+    </a>
+      
+    
+      
+    <a href="go:2" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 4">
+      <div class="button-text">Bein 2</div>
+    </a>
+      
+    
+    <a href="go:3" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 5">
+      <div class="button-text">Bein 3</div>
+    </a>
+      
+    
+      
+    <a href="go:4" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 6">
+      <div class="button-text">Bein 4</div>
+    </a>
+      
+    
+      
+    <a href="go:5" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 7">
+      <div class="button-text">Bein 5</div>
+    </a>
+      
+    
+      
+    <a href="go:6" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 9">
+      <div class="button-text">Bein 6</div>
+    </a>
+      
+    
+      
+    <a href="go:7" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 10">
+      <div class="button-text">Bein 7</div>
+    </a>
+
+
+
+      
+    <a href="go:8" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 10">
+      <div class="button-text">Bein 8</div>
+    </a>
+
+<a href="go:9" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Image 10">
+      <div class="button-text">Bein 9</div>
+    </a>
+      
+      
+    <a href="go:10" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwXGqMh_WP2Hph7t0CovF8_G0RBZyMnlJgAaANibIru6RXf1TCDl_cdRAMA2E8IOl1wh8uqJJ5xSakKyOdeOxgPbsPxZ9QYJPq78UL5b6gnGj3ECKXNe9-eq3A38x4AtjrgPzQ38IVe-RLTjwDqe1DiH93gNZ4wdC-KlhmM7jPPp-K6DcO-9BwQlk7/s320/1694882433.webp">
+      <div class="button-text">Ad sports 1</div>
+    </a>
+      
+    <a href="go:11" class="button">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwXGqMh_WP2Hph7t0CovF8_G0RBZyMnlJgAaANibIru6RXf1TCDl_cdRAMA2E8IOl1wh8uqJJ5xSakKyOdeOxgPbsPxZ9QYJPq78UL5b6gnGj3ECKXNe9-eq3A38x4AtjrgPzQ38IVe-RLTjwDqe1DiH93gNZ4wdC-KlhmM7jPPp-K6DcO-9BwQlk7/s320/1694882433.webp">
+      <div class="button-text">Ad sports 2</div>
+    </a>
+      
+   
+      
+  </div>
+
+  <!-- Popup 1 -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.xpola.player'">تحميل المشغل</button>
+      <button onClick="location.href='intent://XPOLA808SzJ4ZGRgYyo/P2Njcz0hPXV+cz51dHd1fnVoZHN0fj5+dWQ/f2VkP2YhP3MmKSZ1JCghKXIlJSQhJCMoKHEhcSQoJ3UocSQlc3EhP3l+dHVoPn1gdGxzcWNkLXZxfGN1bH5xfXUtQ2NzMCFscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53bHRifT15fnZ/LXN8dXFie3VpbHQoJHMjIiV2IyYoISR2IylycnUlKSAoICInInIhIHMjKiUlICciJ3R1JHMpJnV2IXVzdnYoJyQpICUkKSMlKCB2MjwyeGRkYGMqPz9jY3M9Ij11fnM+dXR3dX51aGRzdH4+fnVkP39lZD9mIT9xISZ0ciJ1cyMjKHEkJCVxKCJ0KXMlJCFzcykiKSN2KT95fnR1aD59YHRsc3FjZC12cXxjdWx+cX11LUNjczAibHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+d2x0Yn09eX52fy1zfHVxYnt1aWwocnN2cyUlIyUpdSIkcnQncXQhcyUlJiBxKSZ0dHQjcypyJXRzdiciIXFyJSIicXYpInEpdCNydiBydCUlciUpJjI8MnhkZGBjKj8/Y2NzPSM9dX5zPnV0d3V+dWhkc3R+Pn51ZD9/ZWQ/ZiE/JCJ1KCYhIiUlJSUiJCJxcXEicSEiICUmKCMidScoISQ/eX50dWg+fWB0bHNxY2QtdnF8Y3VsfnF9dS1DY3MwI2xxYGB8f3d/ZHwteGRkYGMqPz9icWc+d3lkeGVyZWN1YnN/fmR1fmQ+c399P0ZxYiFidXY/RnFiP2J1dmM/eHVxdGM/fXF5fj9AeXNjcWJkTyIlPSAoPSAhTyAoPSMjPSAnPSUoIz5gfndsdGJ9PXl+dn8tc3x1cWJ7dWlsJ3R1JXR0IChxdCggJCF0JSgmcyJ2ISZzc3MpJCkgcSEqJXUhJSAjdiMjKShyIyR2JSApKSkjI3Z1dHFyKCQndXYyPDJ4ZGRgYyo/P2Njcz0kPXV+cz51dHd1fnVoZHN0fj5+dWQ/f2VkP2YhPyUiJid1cSUnJyIoJyRyIHRyIiQlJSl0JiQjdXFxdCkjP3l+dHVoPn1gdGxzcWNkLXZxfGN1bH5xfXUtQ2NzMCRscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53bHRifT15fnZ/LXN8dXFie3VpbCVzJicidiZyKCVxKSQmIygoJyJ0ICIhJHYnKCAmdXQkKnJ2KCclJnZycigmJnV1InQlcycgIXMiIigpdHQodHUjMjwyeGRkYGMqPz9jY3M9JT11fnM+dXR3dX51aGRzdH4+fnVkP39lZD9mIT8pKSIoKXVxcyVxJ3IkIyEpKSAldHElKSVxdnJ0Jykicj95fnR1aD59YHRsc3FjZC12cXxjdWx+cX11LUNjczAlbHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+d2x0Yn09eX52fy1zfHVxYnt1aWxzKChyJSEiciEncXIkdiZzciApdXIgdnYkcSEgJSZ1dCpxdHMgKHV1IXMiIHEnIyQpJyJxJSVzKXF1cnJ0ISgoKDI8MnhkZGBjKj8/Y2NzPXVoZGJxIT1xez5xe3F9cXlqdXQ+fnVkP39lZD9mIT8mJCdzJSgmKSN2IXQkJnF2KSJydCd1Jil2IScpISJzcj95fnR1aD59YHRsc3FjZC12cXxjdWx+cX11LUNjczB1aGRicTAhbHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+d2x0Yn09eX52fy1zfHVxYnt1aWx1c3JzKXUmdnUmciEkJXV2ciYmJSh2ciVzdickIid2KCogI3MhJ3UiKCkhIXYnISIiIXFzcnMgciEhdikgICQgITI8MnhkZGBjKj8/Y2NzPXVoZGJxPSI9dX5zPnV0d3V+dWhkc3R+Pn51ZD9/ZWQ/ZiE/KHInIHR1InInIHQkJCdycShxJyQlIHJxKSApIiZxInQ/eX50dWg+fWB0bHNxY2QtdnF8Y3VsfnF9dS1DQ1MwVUhEQlEwImxxYGB8f3d/ZHwteGRkYGMqPz9icWc+d3lkeGVyZWN1YnN/fmR1fmQ+c399P0ZxYiFidXY/RnFiP2J1dmM/eHVxdGM/fXF5fj9AeXNjcWJkTyIlPSAoPSAhTyAoPSMjPSAnPSUoIz5gfndsdGJ9PXl+dn8tc3x1cWJ7dWlsJHQoKSIkKXJ0JHNxJHVycyl1JyAkJCMiJiV2KSUgJ3Qqc3YgJyR2dnQiJiQmcylzInYoJSEjciQndnElJ3JzIyAyPDJ4ZGRgYyo/P2Njcz11aGRicSM9cXs+cXtxfXF5anV0Pn51ZD9/ZWQ/ZiE/KHYhcyZzI3YgJXV2JCIoJHEmJHIjJCIoKSFydCglcXU/eX50dWg+fWB0bHNxY2QtdnF8Y3VsfnF9dS1DQ1MwVUhEQlEwI2xxYGB8f3d/ZHwteGRkYGMqPz9icWc+d3lkeGVyZWN1YnN/fmR1fmQ+c399P0ZxYiFidXY/RnFiP2J1dmM/eHVxdGM/fXF5fj9AeXNjcWJkTyIlPSAoPSAhTyAoPSMjPSAnPSUoIz5gfndsdGJ9PXl+dn8tc3x1cWJ7dWlsKShzdnQmdnQkKCEiJCkndnIiJHRzJyV2JyUkJXYidXUqdCMgICZ1dSYpdScnciIlKSMpJyIodXJ2IyB0IyEoIHEyTQ==#Intent;scheme=xmtv;package=com.xpola.player;end'">المشغل موجود</button>
+    </div>
+  </div>
+
+  <!-- Popup 2 -->
+<div class="popup" id="popup2">
+  <div class="popup-content">
+    <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.xpola.player'">
+      تحميل المشغل
+    </button>
+    
+    <a href="go:U">
+      <button>المشغل موجود</button>
+    </a>
+  </div>
+</div>
+
+  <!-- Popup 3 -->
+  <div class="popup" id="popup3">
+    <div class="popup-content">
+      <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.xpola.player'">تحميل المشغل</button>
+      <button onClick="location.href='intent://XPOLA808SzJ4ZGRgKj8/ZnlgdWJ5YGRmPmhpaioiJSQmIT8/fXV3cX9kZHlgZGY/dWhzeHF+d3VQZHV8dz8pKGxzcWNkLXZxfGN1bH5xfXUtUVQwQ0BfQkRDMCFscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53MjwyeGRkYCo/P2Z5YHVieWBkZj5oaWoqIiUkJiE/P311d3F/ZGR5YGRmP3Voc3hxfnd1UGR1fHc/ISAgbHNxY2QtdnF8Y3VsfnF9dS1RVDBDQF9CREMwITBWWFRscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53MjwyeGRkYCo/P2Z5YHVieWBkZj5oaWoqIiUkJiE/P311d3F/ZGR5YGRmP3Voc3hxfnd1UGR1fHc/KSlsc3FjZC12cXxjdWx+cX11LVFUMENAX0JEQzAibHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+dzJN#Intent;scheme=xmtv;package=com.xpola.player;end'">المشغل موجود</button>
+    </div>
+  </div>
+
+  <script>
+    function openPopup() {
+      document.getElementById("popup").style.display = "flex";
+    }
+
+    function openSecondPopup() {
+      document.getElementById("popup2").style.display = "flex";
+    }
+
+    function openAPopup() {
+      document.getElementById("popup3").style.display = "flex";
+    }
+
+    function closePopup(popupId) {
+      document.getElementById(popupId).style.display = "none";
+    }
+
+    // Close popup when clicking outside
+    window.onclick = function(event) {
+      const popups = ['popup', 'popup2', 'popup3'];
+      popups.forEach(popupId => {
+        const popup = document.getElementById(popupId);
+        if (event.target === popup) {
+          popup.style.display = "none";
+        }
+      });
+    }
+
+    // Prevent default anchor behavior for popup buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      const popupLinks = document.querySelectorAll('a[onclick*="Popup"]');
+      popupLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+        });
+      });
+
+      // منع النسخ واليمين كليك في البوب أب
+      document.querySelectorAll('.popup-content').forEach(popup => {
+        popup.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          return false;
+        });
+        
+        popup.addEventListener('copy', (e) => {
+          e.preventDefault();
+          return false;
+        });
+        
+        popup.addEventListener('cut', (e) => {
+          e.preventDefault();
+          return false;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
