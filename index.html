@@ -13,6 +13,12 @@
       margin: 0;
       padding: 20px;
     }
+
+    /* إخفاء الصفحة في البداية */
+body {
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
     
 
     .button-container {
@@ -472,6 +478,10 @@
           e.preventDefault();
           return false;
         });
+
+window.addEventListener("load", function () {
+  document.body.style.opacity = "1";
+});
 
 
         
