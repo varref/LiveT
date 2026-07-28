@@ -2,488 +2,394 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>باقة بي إن الحصرية - القنوات الرياضية</title>
-      
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>قنوات Bein</title>
   <style>
-    body {
-      background-color: #000000;
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
-  
-    /* إخفاء الصفحة في البداية */
+
     body {
       opacity: 0;
       transition: opacity 1.5s ease;
+      user-select: none;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: 'Netflix Sans', 'Segoe UI', 'Helvetica Neue', system-ui, -apple-system, 'Roboto', sans-serif;
+      padding: 20px 20px 40px 20px;
+      letter-spacing: 0.2px;
+      min-height: 100vh;
     }
-        
-    .button-container {
+
+    .posters-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      justify-content: center;
+      gap: 22px 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+      justify-items: center;
+      align-items: start;
     }
-  
-    .button {
-      display: inline-block;
-      width: 150px;
-      height: 150px;
-      background: linear-gradient(145deg, #000, #000);
-      border: 1.75px solid white;
-      border-radius: 15px;
-      text-align: center;
-      padding: 10px;
-      color: white;
-      font-size: 14px;
-      text-decoration: none;
-      position: relative;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-    }
-  
-    .button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
+
+    .poster-card {
+      display: flex;
+      flex-direction: column;
       width: 100%;
-      height: 100%;
-      background: transparent;
-      transition: left 0.5s;
+      max-width: 240px;
+      background: #0b0b0b;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #262626;
+      transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      cursor: pointer;
+      box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.8);
+      text-decoration: none;
     }
-  
-    .button:hover::before {
-      left: 100%;
-    }
-  
-    .button:hover {
-      transform: translateY(-5px) scale(1.02);
-    }
-  
-    .button:active {
-      transform: translateY(-2px) scale(0.98);
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-    }
-  
-    .button img {
-      width: 70%;
-      height: 70%;
+
+    .poster-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
-      border-radius: 10px;
-      transition: all 0.3s ease;
+      display: block;
+      transition: transform 0.35s ease, filter 0.3s ease, opacity 0.4s ease;
+      background-color: #111;
+      opacity: 0;
     }
-  
-    .button:hover img {
-      transform: scale(1.05);
-    }
-  
-    /* تأثير الهيكل العظمي (Skeleton Screen) على الصور */
-    .button img.skeleton-img {
-      background: linear-gradient(110deg, #2a2a2a 8%, #3a3a3a 18%, #2a2a2a 33%);
+
+    .poster-card img.skeleton-img {
+      background: linear-gradient(110deg, #2a2a2a 8%, #3e3e3e 18%, #2a2a2a 33%);
       background-size: 200% 100%;
       animation: shimmer 1.5s linear infinite;
       opacity: 0.7;
-      border-radius: 10px;
     }
-  
+
     @keyframes shimmer {
-      0% {
-        background-position: -200% 0;
-      }
-      100% {
-        background-position: 200% 0;
-      }
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
     }
-  
-    /* إخفاء الصورة الأصلية أثناء تحميلها (نعرضها فقط بعد التحميل) */
-    .button img {
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-  
-    .button img.loaded {
+
+    .poster-card img.loaded {
       opacity: 1;
     }
-  
-    .button-text {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      line-height: 1.4;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+    .poster-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: #ffffff;
+      box-shadow: 0 16px 28px -8px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.15);
     }
-  
-    * {
-      -webkit-tap-highlight-color: transparent;
+
+    .poster-card:hover img {
+      transform: scale(1.04);
+      filter: brightness(1.06);
     }
-  
-    @media screen and (orientation: landscape) {
-      .button-container {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .button {
-        width: 120px;
-        height: 120px;
-      }
+
+    .poster-card:active {
+      transform: translateY(-2px) scale(0.98);
+      transition: 0.05s linear;
     }
-  
+
+    .match-title {
+      padding: 12px 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      background: linear-gradient(0deg, #0a0a0a 85%, #111111 100%);
+      color: #f0f0f0;
+      border-top: 1px solid #262626;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1.3;
+    }
+
+    .poster-card:hover .match-title {
+      background: #111111;
+      color: white;
+      border-top-color: #3d3d3d;
+    }
+
     .home-button {
       position: fixed;
-      bottom: 20px;
-      right: -100px;
-      background: linear-gradient(145deg, #000, #000);
-      border: 3px solid white;
-      color: white;
-      border-radius: 50px;
-      padding: 12px 20px;
+      bottom: 24px;
+      right: 24px;
+      background: #0f0f0f;
+      border: 1.8px solid #ffffff;
+      border-radius: 60px;
+      padding: 10px 18px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      font-size: 1em;
-      font-weight: bold;
-      animation: slideIn 1s ease-out forwards;
-      z-index: 1000;
-      transition: all 0.3s ease;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+      z-index: 1100;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(4px);
+      background-color: rgba(10, 10, 10, 0.85);
     }
-  
+
     .home-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+      background: #1f1f1f;
+      border-color: #fff;
+      transform: scale(1.02);
+      box-shadow: 0 10px 24px black;
     }
-  
+
     .home-button svg {
-      width: 50px;
-      height: 27px;
+      width: 24px;
+      height: 24px;
       fill: white;
-      transition: fill 0.3s ease;
+      transition: transform 0.2s;
     }
-  
-    @keyframes slideIn {
-      from {
-        right: -100px;
-        opacity: 0;
+
+    .home-button:active svg {
+      transform: scale(0.94);
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .posters-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px 18px;
+        max-width: 900px;
       }
-      to {
-        right: 20px;
-        opacity: 1;
+      .poster-card {
+        max-width: 210px;
       }
-    }
-  
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      backdrop-filter: blur(5px);
-    }
-  
-    .popup-content {
-      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-      color: white;
-      padding: 30px;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      border: 2px solid #333;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      position: relative;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-    }
-  
-    .popup-content * {
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-    }
-  
-    @keyframes popupAppear {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
+      .match-title {
+        font-size: 0.85rem;
+        padding: 12px 10px 14px;
       }
     }
-  
-    .popup-content::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: #333;
-      border-radius: 20px;
-      z-index: -1;
+
+    @media (min-width: 1024px) {
+      .posters-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px 20px;
+        max-width: 1100px;
+      }
+      .poster-card {
+        max-width: 210px;
+        border-radius: 14px;
+      }
+      .match-title {
+        font-size: 0.9rem;
+        padding: 14px 12px 16px;
+      }
     }
-  
-    .popup button {
-      background: #2a2a2a;
-      color: white;
-      font-size: 16px;
-      padding: 15px 25px;
-      width: 180px;
-      height: 60px;
-      border: 2px solid #444;
-      border-radius: 12px;
-      cursor: pointer;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      position: relative;
-      overflow: hidden;
+
+    @media (min-width: 1400px) {
+      .posters-grid {
+        max-width: 1200px;
+        gap: 32px 24px;
+      }
+      .poster-card {
+        max-width: 230px;
+      }
+      .match-title {
+        font-size: 0.95rem;
+        padding: 16px 14px 18px;
+      }
     }
-  
-    .popup button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      transition: left 0.5s;
+
+    @media (max-width: 639px) {
+      body {
+        padding: 14px 14px 70px 14px;
+      }
+      .posters-grid {
+        gap: 18px 12px;
+        max-width: 100%;
+      }
+      .poster-card {
+        max-width: 180px;
+        border-radius: 12px;
+      }
+      .match-title {
+        font-size: 0.78rem;
+        padding: 10px 8px 12px;
+      }
+      .home-button {
+        bottom: 16px;
+        right: 16px;
+        padding: 8px 14px;
+      }
+      .home-button svg {
+        width: 20px;
+        height: 20px;
+      }
     }
-  
-    .popup button:hover::before {
-      left: 100%;
+
+    @media (orientation: landscape) and (max-height: 600px) {
+      .posters-grid {
+        gap: 14px 12px;
+      }
+      .poster-card {
+        max-width: 150px;
+        border-radius: 10px;
+      }
+      .match-title {
+        padding: 6px 6px 8px;
+        font-size: 0.7rem;
+      }
+      body {
+        padding: 10px 10px 60px 10px;
+      }
     }
-  
-    .popup button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
-    }
-  
-    .popup button:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-  
-    .popup-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: transparent;
-      border: none;
-      color: #888;
-      font-size: 24px;
-      cursor: pointer;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-    }
-  
-    .popup-close:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+
+    img {
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-    
-  <div class="home-button" onclick="window.location.href='https://varref.github.io/var/'">  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">  
-      <path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3Z"></path>  
-    </svg>  
-  </div>  
-  
-  <!-- حاوية الأزرار: تم حذف كل القنوات السابقة والاحتفاظ فقط بـ bein 3 + 4 نسخ جديدة -->
-  <div class="button-container">  
-    <!-- القناة الأصلية: Bein 3 -->  
-      
-      
-    <!-- النسخة الأولى: Bein News -->  
-    <a href="http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts" class="button">  
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Bein News">  
-      <div class="button-text">Bein 1</div>  
-    </a>  
-      <a href="http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325794.ts" class="button">  
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Bein Max 1">  
-      <div class="button-text">Bein 2</div>  
-    </a>  
-    <!-- النسخة الثانية: Bein Max 1 -->  
-    <a href="http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325795.ts" class="button">  
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Bein Max 1">  
-      <div class="button-text">Bein 3</div>  
-    </a>  
-      
-    <!-- النسخة الثالثة: Bein Max 2 -->  
-    <a href="http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325796.ts" class="button">  
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Bein Max 2">  
-      <div class="button-text">Bein 4</div>  
-    </a>  
-      
-    <!-- النسخة الرابعة: Bein Max 3 -->  
-    <a href="http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325797.ts" class="button">  
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Bein Max 3">  
-      <div class="button-text">Bein 5</div>  
-    </a>  
-  
-    <a href="http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325798.ts" class="button">  
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png" alt="Bein Max 2">  
-      <div class="button-text">Bein 6</div>  
-    </a>  
-  
-  
-  
-      
-  </div>  
-  
-  <!-- Popup 1 (محافظة على الهيكل الأصلي بدون تغيير) -->  
-  <div class="popup" id="popup">  
-    <div class="popup-content">  
-      <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.xpola.player'">تحميل المشغل</button>  
-      <button onClick="location.href='intent://XPOLA808SzJ4ZGRgYyo/P2Njcz0hPXV+cz51dHd1fnVoZHN0fj5+dWQ/f2VkP2YhP3MmKSZ1JCghKXIlJSQhJCMoKHEhcSQoJ3UocSQlc3EhP3l+dHVoPn1gdGxzcWNkLXZxfGN1bH5xfXUtQ2NzMCFscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53bHRifT15fnZ/LXN8dXFie3VpbHQoJHMjIiV2IyYoISR2IylycnUlKSAoICInInIhIHMjKiUlICciJ3R1JHMpJnV2IXVzdnYoJyQpICUkKSMlKCB2MjwyeGRkYGMqPz9jY3M9Ij11fnM+dXR3dX51aGRzdH4+fnVkP39lZD9mIT9xISZ0ciJ1cyMjKHEkJCVxKCJ0KXMlJCFzcykiKSN2KT95fnR1aD59YHRsc3FjZC12cXxjdWx+cX11LUNjczAibHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+d2x0Yn09eX52fy1zfHVxYnt1aWwocnN2cyUlIyUpdSIkcnQncXQhcyUlJiBxKSZ0dHQjcypyJXRzdiciIXFyJSIicXYpInEpdCNydiBydCUlciUpJjI8MnhkZGBjKj8/Y2NzPSM9dX5zPnV0d3V+dWhkc3R+Pn51ZD9/ZWQ/ZiE/JCJ1KCYhIiUlJSUiJCJxcXEicSEiICUmKCMidScoISQ/eX50dWg+fWB0bHNxY2QtdnF8Y3VsfnF9dS1DY3MwI2xxYGB8f3d/ZHwteGRkYGMqPz9icWc+d3lkeGVyZWN1YnN/fmR1fmQ+c399P0ZxYiFidXY/RnFiP2J1dmM/eHVxdGM/fXF5fj9AeXNjcWJkTyIlPSAoPSAhTyAoPSMjPSAnPSUoIz5gfndsdGJ9PXl+dn8tc3x1cWJ7dWlsJ3R1JXR0IChxdCggJCF0JSgmcyJ2ISZzc3MpJCkgcSEqJXUhJSAjdiMjKShyIyR2JSApKSkjI3Z1dHFyKCQndXYyPDJ4ZGRgYyo/P2Njcz0kPXV+cz51dHd1fnVoZHN0fj5+dWQ/f2VkP2YhPyUiJid1cSUnJyIoJyRyIHRyIiQlJSl0JiQjdXFxdCkjP3l+dHVoPn1gdGxzcWNkLXZxfGN1bH5xfXUtQ2NzMCRscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53bHRifT15fnZ/LXN8dXFie3VpbCVzJicidiZyKCVxKSQmIygoJyJ0ICIhJHYnKCAmdXQkKnJ2KCclJnZycigmJnV1InQlcycgIXMiIigpdHQodHUjMjwyeGRkYGMqPz9jY3M9JT11fnM+dXR3dX51aGRzdH4+fnVkP39lZD9mIT8pKSIoKXVxcyVxJ3IkIyEpKSAldHElKSVxdnJ0Jykicj95fnR1aD59YHRsc3FjZC12cXxjdWx+cX11LUNjczAlbHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+d2x0Yn09eX52fy1zfHVxYnt1aWxzKChyJSEiciEncXIkdiZzciApdXIgdnYkcSEgJSZ1dCpxdHMgKHV1IXMiIHEnIyQpJyJxJSVzKXF1cnJ0ISgoKDI8MnhkZGBjKj8/Y2NzPXVoZGJxIT1xez5xe3F9cXlqdXQ+fnVkP39lZD9mIT8mJCdzJSgmKSN2IXQkJnF2KSJydCd1Jil2IScpISJzcj95fnR1aD59YHRsc3FjZC12cXxjdWx+cX11LUNjczB1aGRicTAhbHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+d2x0Yn09eX52fy1zfHVxYnt1aWx1c3JzKXUmdnUmciEkJXV2ciYmJSh2ciVzdickIid2KCogI3MhJ3UiKCkhIXYnISIiIXFzcnMgciEhdikgICQgITI8MnhkZGBjKj8/Y2NzPXVoZGJxPSI9dX5zPnV0d3V+dWhkc3R+Pn51ZD9/ZWQ/ZiE/KHInIHR1InInIHQkJCdycShxJyQlIHJxKSApIiZxInQ/eX50dWg+fWB0bHNxY2QtdnF8Y3VsfnF9dS1DQ1MwVUhEQlEwImxxYGB8f3d/ZHwteGRkYGMqPz9icWc+d3lkeGVyZWN1YnN/fmR1fmQ+c399P0ZxYiFidXY/RnFiP2J1dmM/eHVxdGM/fXF5fj9AeXNjcWJkTyIlPSAoPSAhTyAoPSMjPSAnPSUoIz5gfndsdGJ9PXl+dn8tc3x1cWJ7dWlsJHQoKSIkKXJ0JHNxJHVycyl1JyAkJCMiJiV2KSUgJ3Qqc3YgJyR2dnQiJiQmcylzInYoJSEjciQndnElJ3JzIyAyPDJ4ZGRgYyo/P2Njcz11aGRicSM9cXs+cXtxfXF5anV0Pn51ZD9/ZWQ/ZiE/KHYhcyZzI3YgJXV2JCIoJHEmJHIjJCIoKSFydCglcXU/eX50dWg+fWB0bHNxY2QtdnF8Y3VsfnF9dS1DQ1MwVUhEQlEwI2xxYGB8f3d/ZHwteGRkYGMqPz9icWc+d3lkeGVyZWN1YnN/fmR1fmQ+c399P0ZxYiFidXY/RnFiP2J1dmM/eHVxdGM/fXF5fj9AeXNjcWJkTyIlPSAoPSAhTyAoPSMjPSAnPSUoIz5gfndsdGJ9PXl+dn8tc3x1cWJ7dWlsKShzdnQmdnQkKCEiJCkndnIiJHRzJyV2JyUkJXYidXUqdCMgICZ1dSYpdScnciIlKSMpJyIodXJ2IyB0IyEoIHEyTQ==#Intent;scheme=xmtv;package=com.xpola.player;end'">المشغل موجود</button>  
-    </div>  
-  </div>  
-  
-  <!-- Popup 2 -->  
-  <div class="popup" id="popup2">  
-    <div class="popup-content">  
-      <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.xpola.player'">تحميل المشغل</button>  
-      <a href="go:U">  
-        <button>المشغل موجود</button>  
-      </a>  
-    </div>  
-  </div>  
-  
-  <!-- Popup 3 -->  
-  <div class="popup" id="popup3">  
-    <div class="popup-content">  
-      <button onclick="window.location.href='https://play.google.com/store/apps/details?id=com.xpola.player'">تحميل المشغل</button>  
-      <button onClick="location.href='intent://XPOLA808SzJ4ZGRgKj8/ZnlgdWJ5YGRmPmhpaioiJSQmIT8/fXV3cX9kZHlgZGY/dWhzeHF+d3VQZHV8dz8pKGxzcWNkLXZxfGN1bH5xfXUtUVQwQ0BfQkRDMCFscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53MjwyeGRkYCo/P2Z5YHVieWBkZj5oaWoqIiUkJiE/P311d3F/ZGR5YGRmP3Voc3hxfnd1UGR1fHc/ISAgbHNxY2QtdnF8Y3VsfnF9dS1RVDBDQF9CREMwITBWWFRscWBgfH93f2R8LXhkZGBjKj8/YnFnPnd5ZHhlcmVjdWJzf35kdX5kPnN/fT9GcWIhYnV2P0ZxYj9idXZjP3h1cXRjP31xeX4/QHlzY3FiZE8iJT0gKD0gIU8gKD0jIz0gJz0lKCM+YH53MjwyeGRkYCo/P2Z5YHVieWBkZj5oaWoqIiUkJiE/P311d3F/ZGR5YGRmP3Voc3hxfnd1UGR1fHc/KSlsc3FjZC12cXxjdWx+cX11LVFUMENAX0JEQzAibHFgYHx/d39kfC14ZGRgYyo/P2JxZz53eWR4ZXJlY3Vic39+ZHV+ZD5zf30/RnFiIWJ1dj9GcWI/YnV2Yz94dXF0Yz99cXl+P0B5c2NxYmRPIiU9ICg9ICFPICg9IyM9ICc9JSgjPmB+dzJN#Intent;scheme=xmtv;package=com.xpola.player;end'">المشغل موجود</button>  
-    </div>  
-  </div>  
-  
-  <script>  
-    function openPopup() {  
-      document.getElementById("popup").style.display = "flex";  
-    }  
-  
-    function openSecondPopup() {  
-      document.getElementById("popup2").style.display = "flex";  
-    }  
-  
-    function openAPopup() {  
-      document.getElementById("popup3").style.display = "flex";  
-    }  
-  
-    function closePopup(popupId) {  
-      document.getElementById(popupId).style.display = "none";  
-    }  
-  
-    // Close popup when clicking outside  
-    window.onclick = function(event) {  
-      const popups = ['popup', 'popup2', 'popup3'];  
-      popups.forEach(popupId => {  
-        const popup = document.getElementById(popupId);  
-        if (event.target === popup) {  
-          popup.style.display = "none";  
-        }  
-      });  
-    }  
-  
-    // Prevent default anchor behavior for popup buttons and protect popup content  
-    document.addEventListener('DOMContentLoaded', function() {  
-      const popupLinks = document.querySelectorAll('a[onclick*="Popup"]');  
-      popupLinks.forEach(link => {  
-        link.addEventListener('click', function(e) {  
-          e.preventDefault();  
-        });  
-      });  
-  
-      // منع النسخ واليمين كليك في البوب أب  
-      document.querySelectorAll('.popup-content').forEach(popup => {  
-        popup.addEventListener('contextmenu', (e) => {  
-          e.preventDefault();  
-          return false;  
-        });  
-            
-        popup.addEventListener('copy', (e) => {  
-          e.preventDefault();  
-          return false;  
-        });  
-            
-        popup.addEventListener('cut', (e) => {  
-          e.preventDefault();  
-          return false;  
-        });  
-      });  
 
-      // ---------- إضافة تأثير الهيكل العظمي (Skeleton) على الصور ----------
-      const allImages = document.querySelectorAll('.button img');
+  <div class="posters-grid" id="postersGrid"></div>
+
+  <div class="home-button" onclick="window.location.href='https://varref.github.io/var/'" aria-label="الصفحة الرئيسية">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3Z"></path>
+    </svg>
+  </div>
+
+  <script>
+    // إضافة رابط إضافي (extraLink) لكل قناة
+    const matchesData = [
+
+      { 
+        title: "THMANYAH 1", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
+        extraLink: "https://example.com/bein1" 
+      },
+
+      { 
+        title: "THMANYAH 2", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
+        extraLink: "https://example.com/bein1" 
+      },
+
+      { 
+        title: "THMANYAH 3", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
+        extraLink: "https://example.com/bein1" 
+      },
+
+      { 
+        title: "Bein News", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
+        extraLink: "https://example.com/bein1" 
+      },
+
+
+
+    
       
-      // دالة لتطبيق تأثير Skeleton على الصورة
-      function applySkeleton(imgElement) {
-        // إضافة كلاس skeleton للصورة لإظهار التموج
-        imgElement.classList.add('skeleton-img');
-        // التأكد من أن الصورة مخفية حتى يتم تحميلها (opacity 0)
-        imgElement.style.opacity = '0';
+      { 
+        title: "Bein 1", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
+        extraLink: "https://example.com/bein1" 
+      },
+      { 
+        title: "Bein 2", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325794.ts",
+        extraLink: "https://example.com/bein2" 
+      },
+      { 
+        title: "Bein 3", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325795.ts",
+        extraLink: "https://example.com/bein3" 
+      },
+      { 
+        title: "Bein 4", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325796.ts",
+        extraLink: "https://example.com/bein4" 
+      },
+      { 
+        title: "Bein 5", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325797.ts",
+        extraLink: "https://example.com/bein5" 
+      },
+      { 
+        title: "Bein 6", 
+        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
+        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325798.ts",
+        extraLink: "https://example.com/bein6" 
       }
-      
-      // دالة لإزالة تأثير Skeleton بعد تحميل الصورة
-      function removeSkeleton(imgElement) {
-        imgElement.classList.remove('skeleton-img');
-        imgElement.classList.add('loaded');
-        imgElement.style.opacity = '1';
-      }
-      
-      // معالجة كل صورة: إذا كانت محملة بالفعل، نزيل الـ skeleton، وإلا ننتظر تحميلها
-      allImages.forEach(img => {
-        // تطبيق الهيكل العظمي مبدئياً
-        applySkeleton(img);
-        
-        // إذا كانت الصورة قد تم تحميلها بالفعل (من cache)
-        if (img.complete) {
-          removeSkeleton(img);
-        } else {
-          // في انتظار التحميل
-          img.addEventListener('load', function() {
-            removeSkeleton(img);
-          });
-          // في حالة حدوث خطأ في التحميل، نخفي الـ skeleton ونظهر صورة بديلة (تبقى مخفية ولكن بدون skeleton)
-          img.addEventListener('error', function() {
-            img.classList.remove('skeleton-img');
-            img.style.opacity = '0.5'; // إظهارها بشكل خافت كدلالة على الخطأ
-          });
+    ];
+
+    function createPosterCard(match) {
+      const card = document.createElement('div');
+      card.className = 'poster-card';
+      card.addEventListener('click', function() {
+        // فتح الرابط الأول
+        window.open(match.link, '_blank');
+        // فتح الرابط الثاني (الإضافي)
+        if (match.extraLink) {
+          window.open(match.extraLink, '_blank');
         }
       });
-      
-    }); // نهاية DOMContentLoaded
-  
-    // تأثير ظهور الصفحة  
-    window.addEventListener("load", function () {  
-      document.body.style.opacity = "1";  
-    });  
-  </script>  
-</body>  
+      const img = document.createElement('img');
+      img.src = match.imgSrc;
+      img.alt = match.title;
+      img.loading = "lazy";
+      img.classList.add('skeleton-img');
+      img.style.opacity = '0.7';
+      img.addEventListener('load', function() {
+        img.classList.remove('skeleton-img');
+        img.classList.add('loaded');
+        img.style.opacity = '1';
+      });
+      img.addEventListener('error', function() {
+        img.classList.remove('skeleton-img');
+        img.style.opacity = '0.5';
+        img.style.backgroundColor = '#1a1a1a';
+      });
+      if (img.complete) {
+        if (img.naturalWidth !== 0) {
+          img.classList.remove('skeleton-img');
+          img.classList.add('loaded');
+          img.style.opacity = '1';
+        } else {
+          img.classList.remove('skeleton-img');
+          img.style.opacity = '0.5';
+          img.style.backgroundColor = '#1a1a1a';
+        }
+      }
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'match-title';
+      titleDiv.textContent = match.title;
+      card.appendChild(img);
+      card.appendChild(titleDiv);
+      return card;
+    }
+
+    window.addEventListener("load", function () {
+      document.body.style.opacity = "1";
+    });
+
+    document.addEventListener("copy", e => e.preventDefault());
+    document.addEventListener("cut", e => e.preventDefault());
+    document.addEventListener("selectstart", e => e.preventDefault());
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", function(e) {
+      if (
+        e.ctrlKey && (e.key === "c" || e.key === "u" || e.key === "s") ||
+        e.key === "F12"
+      ) {
+        e.preventDefault();
+      }
+    });
+
+    const grid = document.getElementById('postersGrid');
+    matchesData.forEach(m => grid.appendChild(createPosterCard(m)));
+  </script>
+</body>
 </html>
