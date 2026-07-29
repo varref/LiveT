@@ -1,395 +1,601 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>قنوات Bein</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>قنوات Bein</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    body {
-      opacity: 0;
-      transition: opacity 1.5s ease;
-      user-select: none;
-      background-color: #000000;
-      color: #ffffff;
-      font-family: 'Netflix Sans', 'Segoe UI', 'Helvetica Neue', system-ui, -apple-system, 'Roboto', sans-serif;
-      padding: 20px 20px 40px 20px;
-      letter-spacing: 0.2px;
-      min-height: 100vh;
-    }
+        body {
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            user-select: none;
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Netflix Sans', 'Segoe UI', 'Helvetica Neue', system-ui, -apple-system, 'Roboto', sans-serif;
+            padding: 20px 20px 40px 20px;
+            letter-spacing: 0.2px;
+            min-height: 100vh;
+        }
 
-    .posters-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px 16px;
-      max-width: 1000px;
-      margin: 0 auto;
-      justify-items: center;
-      align-items: start;
-    }
+        .posters-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+            justify-items: center;
+            align-items: start;
+        }
 
-    .poster-card {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 240px;
-      background: #0b0b0b;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #262626;
-      transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      cursor: pointer;
-      box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.8);
-      text-decoration: none;
-    }
+        .poster-card {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 240px;
+            background: #0b0b0b;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #262626;
+            transition: all 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.8);
+            text-decoration: none;
+        }
 
-    .poster-card img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.35s ease, filter 0.3s ease, opacity 0.4s ease;
-      background-color: #111;
-      opacity: 0;
-    }
+        .poster-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease, filter 0.3s ease, opacity 0.4s ease;
+            background-color: #111;
+            opacity: 0;
+        }
 
-    .poster-card img.skeleton-img {
-      background: linear-gradient(110deg, #2a2a2a 8%, #3e3e3e 18%, #2a2a2a 33%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s linear infinite;
-      opacity: 0.7;
-    }
+        .poster-card img.skeleton-img {
+            background: linear-gradient(110deg, #2a2a2a 8%, #3e3e3e 18%, #2a2a2a 33%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s linear infinite;
+            opacity: 0.7;
+        }
 
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
 
-    .poster-card img.loaded {
-      opacity: 1;
-    }
+        .poster-card img.loaded {
+            opacity: 1;
+        }
 
-    .poster-card:hover {
-      transform: translateY(-5px) scale(1.02);
-      border-color: #ffffff;
-      box-shadow: 0 16px 28px -8px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.15);
-    }
+        .poster-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #ffffff;
+            box-shadow: 0 16px 28px -8px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.15);
+        }
 
-    .poster-card:hover img {
-      transform: scale(1.04);
-      filter: brightness(1.06);
-    }
+        .poster-card:hover img {
+            transform: scale(1.04);
+            filter: brightness(1.06);
+        }
 
-    .poster-card:active {
-      transform: translateY(-2px) scale(0.98);
-      transition: 0.05s linear;
-    }
+        .poster-card:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: 0.05s linear;
+        }
 
-    .match-title {
-      padding: 12px 10px 14px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.3px;
-      background: linear-gradient(0deg, #0a0a0a 85%, #111111 100%);
-      color: #f0f0f0;
-      border-top: 1px solid #262626;
-      transition: background 0.2s, color 0.2s;
-      line-height: 1.3;
-    }
+        .match-title {
+            padding: 12px 10px 14px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            background: linear-gradient(0deg, #0a0a0a 85%, #111111 100%);
+            color: #f0f0f0;
+            border-top: 1px solid #262626;
+            transition: background 0.2s, color 0.2s;
+            line-height: 1.3;
+        }
 
-    .poster-card:hover .match-title {
-      background: #111111;
-      color: white;
-      border-top-color: #3d3d3d;
-    }
+        .poster-card:hover .match-title {
+            background: #111111;
+            color: white;
+            border-top-color: #3d3d3d;
+        }
 
-    .home-button {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #0f0f0f;
-      border: 1.8px solid #ffffff;
-      border-radius: 60px;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
-      z-index: 1100;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(4px);
-      background-color: rgba(10, 10, 10, 0.85);
-    }
+        .home-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0f0f0f;
+            border: 1.8px solid #ffffff;
+            border-radius: 60px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+            z-index: 1100;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+            background-color: rgba(10, 10, 10, 0.85);
+        }
 
-    .home-button:hover {
-      background: #1f1f1f;
-      border-color: #fff;
-      transform: scale(1.02);
-      box-shadow: 0 10px 24px black;
-    }
+        .home-button:hover {
+            background: #1f1f1f;
+            border-color: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 10px 24px black;
+        }
 
-    .home-button svg {
-      width: 24px;
-      height: 24px;
-      fill: white;
-      transition: transform 0.2s;
-    }
+        .home-button svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            transition: transform 0.2s;
+        }
 
-    .home-button:active svg {
-      transform: scale(0.94);
-    }
+        .home-button:active svg {
+            transform: scale(0.94);
+        }
 
-    @media (min-width: 640px) and (max-width: 1023px) {
-      .posters-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px 18px;
-        max-width: 900px;
-      }
-      .poster-card {
-        max-width: 210px;
-      }
-      .match-title {
-        font-size: 0.85rem;
-        padding: 12px 10px 14px;
-      }
-    }
+        /* ===== MODAL / POPUP ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
 
-    @media (min-width: 1024px) {
-      .posters-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 28px 20px;
-        max-width: 1100px;
-      }
-      .poster-card {
-        max-width: 210px;
-        border-radius: 14px;
-      }
-      .match-title {
-        font-size: 0.9rem;
-        padding: 14px 12px 16px;
-      }
-    }
+        .modal-overlay.active {
+            display: flex;
+        }
 
-    @media (min-width: 1400px) {
-      .posters-grid {
-        max-width: 1200px;
-        gap: 32px 24px;
-      }
-      .poster-card {
-        max-width: 230px;
-      }
-      .match-title {
-        font-size: 0.95rem;
-        padding: 16px 14px 18px;
-      }
-    }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-    @media (max-width: 639px) {
-      body {
-        padding: 14px 14px 70px 14px;
-      }
-      .posters-grid {
-        gap: 18px 12px;
-        max-width: 100%;
-      }
-      .poster-card {
-        max-width: 180px;
-        border-radius: 12px;
-      }
-      .match-title {
-        font-size: 0.78rem;
-        padding: 10px 8px 12px;
-      }
-      .home-button {
-        bottom: 16px;
-        right: 16px;
-        padding: 8px 14px;
-      }
-      .home-button svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
+        /* خلفية المودال رمادية غامقة (dark grey) */
+        .modal-content {
+            background: #2d2d2d;
+            border-radius: 20px;
+            padding: 32px 24px 28px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.9);
+            border: 1px solid #444444;
+        }
 
-    @media (orientation: landscape) and (max-height: 600px) {
-      .posters-grid {
-        gap: 14px 12px;
-      }
-      .poster-card {
-        max-width: 150px;
-        border-radius: 10px;
-      }
-      .match-title {
-        padding: 6px 6px 8px;
-        font-size: 0.7rem;
-      }
-      body {
-        padding: 10px 10px 60px 10px;
-      }
-    }
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-    img {
-      pointer-events: none;
-    }
-  </style>
+        .modal-btn {
+            display: block;
+            width: 100%;
+            padding: 14px 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* 720p button – gray & white & black */
+        .btn-720 {
+            background: #e8e8e8;
+            color: #000000;
+            border: 2px solid #cccccc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-720:hover {
+            background: #d5d5d5;
+            border-color: #aaaaaa;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 1080p button – black & white */
+        .btn-1080 {
+            background: #000000;
+            color: #ffffff;
+            border: 2px solid #000000;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-1080:hover {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-1080 .badge {
+            display: inline-block;
+            background: #ffffff;
+            color: #000000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-720 .badge {
+            display: inline-block;
+            background: #888888;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 640px) and (max-width: 1023px) {
+            .posters-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px 18px;
+                max-width: 900px;
+            }
+            .poster-card {
+                max-width: 210px;
+            }
+            .match-title {
+                font-size: 0.85rem;
+                padding: 12px 10px 14px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .posters-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 28px 20px;
+                max-width: 1100px;
+            }
+            .poster-card {
+                max-width: 210px;
+                border-radius: 14px;
+            }
+            .match-title {
+                font-size: 0.9rem;
+                padding: 14px 12px 16px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .posters-grid {
+                max-width: 1200px;
+                gap: 32px 24px;
+            }
+            .poster-card {
+                max-width: 230px;
+            }
+            .match-title {
+                font-size: 0.95rem;
+                padding: 16px 14px 18px;
+            }
+        }
+
+        @media (max-width: 639px) {
+            body {
+                padding: 14px 14px 70px 14px;
+            }
+            .posters-grid {
+                gap: 18px 12px;
+                max-width: 100%;
+            }
+            .poster-card {
+                max-width: 180px;
+                border-radius: 12px;
+            }
+            .match-title {
+                font-size: 0.78rem;
+                padding: 10px 8px 12px;
+            }
+            .home-button {
+                bottom: 16px;
+                right: 16px;
+                padding: 8px 14px;
+            }
+            .home-button svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .modal-content {
+                padding: 24px 16px 20px;
+                max-width: 280px;
+            }
+            .modal-btn {
+                font-size: 16px;
+                padding: 12px 10px;
+            }
+            .modal-buttons {
+                gap: 10px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 600px) {
+            .posters-grid {
+                gap: 14px 12px;
+            }
+            .poster-card {
+                max-width: 150px;
+                border-radius: 10px;
+            }
+            .match-title {
+                padding: 6px 6px 8px;
+                font-size: 0.7rem;
+            }
+            body {
+                padding: 10px 10px 60px 10px;
+            }
+
+            .modal-content {
+                padding: 16px 14px 14px;
+                max-width: 260px;
+            }
+            .modal-btn {
+                font-size: 14px;
+                padding: 10px 8px;
+            }
+            .modal-buttons {
+                gap: 8px;
+            }
+        }
+
+        img {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="posters-grid" id="postersGrid"></div>
+    <div class="posters-grid" id="postersGrid"></div>
 
-  <div class="home-button" onclick="window.location.href='https://varref.github.io/var/'" aria-label="الصفحة الرئيسية">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-      <path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3Z"></path>
-    </svg>
-  </div>
+    <!-- HOME BUTTON -->
+    <div class="home-button" onclick="window.location.href='https://varref.github.io/var/'" aria-label="الصفحة الرئيسية">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3Z"></path>
+        </svg>
+    </div>
 
-  <script>
-    // إضافة رابط إضافي (extraLink) لكل قناة
-    const matchesData = [
+    <!-- ===== QUALITY POPUP (مبسطة، بدون نصوص إضافية أو زر إغلاق) ===== -->
+    <div class="modal-overlay" id="qualityModal">
+        <div class="modal-content">
+            <div class="modal-buttons">
+                <!-- 1080p في الأعلى -->
+                <button class="modal-btn btn-1080" id="btn1080">
+                    1080p <span class="badge">FHD</span>
+                </button>
+                <!-- 720p في الأسفل -->
+                <button class="modal-btn btn-720" id="btn720">
+                    720p <span class="badge">HD</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-      { 
-        title: "THMANYAH 1", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggwb1e_obl7L4JKJjYQ3466EPlNeIaTYeYHoK-BxTdeQaVHmfUMf5Pyp38_w4qt90PFh8VmtbfT4H1yXrpTwb7iCyNxbAengsmhMLXhXyI5bcaOGywjdm_3C_DiBFHIZxEMU1lQhKDT4oCMGYCif9jYn5x8C1xZrhCCBXPjBWcFRirsn8L92htq4RC1WRX/s715/img_1_1785273162400.jpg", 
-        link: "http://xlion.net:8080/15034094901029/18800196589372/429516",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/421785" 
-      },
+    <script>
+        // ===== DATA =====
+        // link = 720p (الأول), extraLink = 1080p (الثاني)
+        const matchesData = [{
+            title: "THMANYAH 1",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggwb1e_obl7L4JKJjYQ3466EPlNeIaTYeYHoK-BxTdeQaVHmfUMf5Pyp38_w4qt90PFh8VmtbfT4H1yXrpTwb7iCyNxbAengsmhMLXhXyI5bcaOGywjdm_3C_DiBFHIZxEMU1lQhKDT4oCMGYCif9jYn5x8C1xZrhCCBXPjBWcFRirsn8L92htq4RC1WRX/s715/img_1_1785273162400.jpg",
+            link: "http://xlion.net:8080/15034094901029/18800196589372/429516",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/421785"
+        }, {
+            title: "THMANYAH 2",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggwb1e_obl7L4JKJjYQ3466EPlNeIaTYeYHoK-BxTdeQaVHmfUMf5Pyp38_w4qt90PFh8VmtbfT4H1yXrpTwb7iCyNxbAengsmhMLXhXyI5bcaOGywjdm_3C_DiBFHIZxEMU1lQhKDT4oCMGYCif9jYn5x8C1xZrhCCBXPjBWcFRirsn8L92htq4RC1WRX/s715/img_1_1785273162400.jpg",
+            link: "http://xlion.net:8080/15034094901029/18800196589372/429517",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/421786"
+        }, {
+            title: "THMANYAH 3",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggwb1e_obl7L4JKJjYQ3466EPlNeIaTYeYHoK-BxTdeQaVHmfUMf5Pyp38_w4qt90PFh8VmtbfT4H1yXrpTwb7iCyNxbAengsmhMLXhXyI5bcaOGywjdm_3C_DiBFHIZxEMU1lQhKDT4oCMGYCif9jYn5x8C1xZrhCCBXPjBWcFRirsn8L92htq4RC1WRX/s715/img_1_1785273162400.jpg",
+            link: "http://xlion.net:8080/15034094901029/18800196589372/429518",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/429403"
+        }, {
+            title: "Bein News",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://xlion.net:8080/15034094901029/18800196589372/443146",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318230"
+        }, {
+            title: "Bein 1",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318197"
+        }, {
+            title: "Bein 2",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325794.ts",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318198"
+        }, {
+            title: "Bein 3",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325795.ts",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318199"
+        }, {
+            title: "Bein 4",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325796.ts",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318200"
+        }, {
+            title: "Bein 5",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325797.ts",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318201"
+        }, {
+            title: "Bein 6",
+            imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png",
+            link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325798.ts",
+            extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318202"
+        }];
 
-      { 
-        title: "THMANYAH 2", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggwb1e_obl7L4JKJjYQ3466EPlNeIaTYeYHoK-BxTdeQaVHmfUMf5Pyp38_w4qt90PFh8VmtbfT4H1yXrpTwb7iCyNxbAengsmhMLXhXyI5bcaOGywjdm_3C_DiBFHIZxEMU1lQhKDT4oCMGYCif9jYn5x8C1xZrhCCBXPjBWcFRirsn8L92htq4RC1WRX/s715/img_1_1785273162400.jpg", 
-        link: "http://xlion.net:8080/15034094901029/18800196589372/429517",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/421786" 
-      },
+        // ===== DOM REFS =====
+        const modal = document.getElementById('qualityModal');
+        const btn720 = document.getElementById('btn720');
+        const btn1080 = document.getElementById('btn1080');
+        const grid = document.getElementById('postersGrid');
 
-      { 
-        title: "THMANYAH 3", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggwb1e_obl7L4JKJjYQ3466EPlNeIaTYeYHoK-BxTdeQaVHmfUMf5Pyp38_w4qt90PFh8VmtbfT4H1yXrpTwb7iCyNxbAengsmhMLXhXyI5bcaOGywjdm_3C_DiBFHIZxEMU1lQhKDT4oCMGYCif9jYn5x8C1xZrhCCBXPjBWcFRirsn8L92htq4RC1WRX/s715/img_1_1785273162400.jpg", 
-        link: "http://xlion.net:8080/15034094901029/18800196589372/429518",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/429403" 
-      },
+        let current720Link = '';
+        let current1080Link = '';
 
-      { 
-        title: "Bein News", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://xlion.net:8080/15034094901029/18800196589372/443146",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318230" 
-      },
-
-
-
-    
-      
-      { 
-        title: "Bein 1", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325793.ts",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318197" 
-      },
-      { 
-        title: "Bein 2", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325794.ts",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318198" 
-      },
-      { 
-        title: "Bein 3", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325795.ts",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318199" 
-      },
-      { 
-        title: "Bein 4", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325796.ts",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318200" 
-      },
-      { 
-        title: "Bein 5", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325797.ts",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318201"
-      },
-      { 
-        title: "Bein 6", 
-        imgSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4wWGdzSSCQt8PtONl5_3EAeSowPu3KLPhD-2R2Bcs0x6UJLySOCSXoGrS2tFnq7KmO7WaYLFfMR_Q8m7zlMvd8Rojm1iJWdTkgxKzd43eQB2WHjO-XSZ5aHN7U4MQdcuwd3E8gQDgwkrEBc3MC-dBZn6SEdJqi-iicnZlvNF9FXGHRZuqUJjsOqZA/s512/unnamed.png", 
-        link: "http://185.191.126.127:8080/////////live/b0:99:d7:15:88:50/3090914536649669/325798.ts",
-        extraLink: "http://xlion.net:8080/15034094901029/18800196589372/318202" 
-      }
-    ];
-
-    function createPosterCard(match) {
-      const card = document.createElement('div');
-      card.className = 'poster-card';
-      card.addEventListener('click', function() {
-        // فتح الرابط الأول
-        window.open(match.link, '_blank');
-        // فتح الرابط الثاني (الإضافي)
-        if (match.extraLink) {
-          window.open(match.extraLink, '_blank');
+        // ===== OPEN MODAL =====
+        function openModal(link720, link1080) {
+            current720Link = link720;
+            current1080Link = link1080;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-      });
-      const img = document.createElement('img');
-      img.src = match.imgSrc;
-      img.alt = match.title;
-      img.loading = "lazy";
-      img.classList.add('skeleton-img');
-      img.style.opacity = '0.7';
-      img.addEventListener('load', function() {
-        img.classList.remove('skeleton-img');
-        img.classList.add('loaded');
-        img.style.opacity = '1';
-      });
-      img.addEventListener('error', function() {
-        img.classList.remove('skeleton-img');
-        img.style.opacity = '0.5';
-        img.style.backgroundColor = '#1a1a1a';
-      });
-      if (img.complete) {
-        if (img.naturalWidth !== 0) {
-          img.classList.remove('skeleton-img');
-          img.classList.add('loaded');
-          img.style.opacity = '1';
-        } else {
-          img.classList.remove('skeleton-img');
-          img.style.opacity = '0.5';
-          img.style.backgroundColor = '#1a1a1a';
+
+        // ===== CLOSE MODAL =====
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
         }
-      }
-      const titleDiv = document.createElement('div');
-      titleDiv.className = 'match-title';
-      titleDiv.textContent = match.title;
-      card.appendChild(img);
-      card.appendChild(titleDiv);
-      return card;
-    }
 
-    window.addEventListener("load", function () {
-      document.body.style.opacity = "1";
-    });
+        // ===== EVENT LISTENERS (إغلاق بالضغط على الخلفية) =====
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
 
-    document.addEventListener("copy", e => e.preventDefault());
-    document.addEventListener("cut", e => e.preventDefault());
-    document.addEventListener("selectstart", e => e.preventDefault());
-    document.addEventListener("contextmenu", e => e.preventDefault());
-    document.addEventListener("keydown", function(e) {
-      if (
-        e.ctrlKey && (e.key === "c" || e.key === "u" || e.key === "s") ||
-        e.key === "F12"
-      ) {
-        e.preventDefault();
-      }
-    });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
 
-    const grid = document.getElementById('postersGrid');
-    matchesData.forEach(m => grid.appendChild(createPosterCard(m)));
-  </script>
+        // ===== BUTTON ACTIONS (نفس الوظائف، 1080 بالأعلى) =====
+        btn1080.addEventListener('click', function() {
+            if (current1080Link) {
+                window.open(current1080Link, '_blank');
+            }
+        });
+
+        btn720.addEventListener('click', function() {
+            if (current720Link) {
+                window.open(current720Link, '_blank');
+            }
+        });
+
+        // ===== CREATE CARDS =====
+        function createPosterCard(match) {
+            const card = document.createElement('div');
+            card.className = 'poster-card';
+
+            card.addEventListener('click', function() {
+                // فتح البوب اب مع الرابطين
+                openModal(match.link, match.extraLink);
+            });
+
+            const img = document.createElement('img');
+            img.src = match.imgSrc;
+            img.alt = match.title;
+            img.loading = "lazy";
+            img.classList.add('skeleton-img');
+            img.style.opacity = '0.7';
+
+            img.addEventListener('load', function() {
+                img.classList.remove('skeleton-img');
+                img.classList.add('loaded');
+                img.style.opacity = '1';
+            });
+
+            img.addEventListener('error', function() {
+                img.classList.remove('skeleton-img');
+                img.style.opacity = '0.5';
+                img.style.backgroundColor = '#1a1a1a';
+            });
+
+            if (img.complete) {
+                if (img.naturalWidth !== 0) {
+                    img.classList.remove('skeleton-img');
+                    img.classList.add('loaded');
+                    img.style.opacity = '1';
+                } else {
+                    img.classList.remove('skeleton-img');
+                    img.style.opacity = '0.5';
+                    img.style.backgroundColor = '#1a1a1a';
+                }
+            }
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'match-title';
+            titleDiv.textContent = match.title;
+
+            card.appendChild(img);
+            card.appendChild(titleDiv);
+            return card;
+        }
+
+        // ===== BUILD GRID =====
+        matchesData.forEach(m => grid.appendChild(createPosterCard(m)));
+
+        // ===== BODY FADE-IN =====
+        window.addEventListener("load", function() {
+            document.body.style.opacity = "1";
+        });
+
+        // ===== ANTI-COPY / CONTEXT MENU =====
+        document.addEventListener("copy", e => e.preventDefault());
+        document.addEventListener("cut", e => e.preventDefault());
+        document.addEventListener("selectstart", e => e.preventDefault());
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", function(e) {
+            if (
+                e.ctrlKey && (e.key === "c" || e.key === "u" || e.key === "s") ||
+                e.key === "F12"
+            ) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
